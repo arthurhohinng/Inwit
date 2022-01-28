@@ -14,11 +14,12 @@ vote was only held once to determine the topic of the project.
 
 As some features were already implemented, user stories were prioritized based on their existing
 level of implementation. The team will prioritize unimplemented features first, incomplete features
-second and work on improving implemnted features last. The team has been given full control on the
-priorities of user stories within each priority bracket and will hold brief discussions on which
-user stories to choose from before each sprint. The team has also been provided with a Google
-Document, in which user stories are color coded based on priority. The document will be used
-in addition to any pre-existing tools to keep track of user story priorities.
+second and work on improving implemented features last. Additionally, user stories will also be
+prioritized based on the target users, with Users > Restaurant > Admin. The team has been given
+full control on the priorities of user stories within each priority bracket and will hold brief
+discussions on which user stories to choose from before each sprint. The team has also been
+provided with a Google Document, in which user stories are color coded based on priority.
+The document will be used in addition to any pre-existing tools to keep track of user story priorities.
 
 Each meeting was held with a specific purpose and goal in mind, with the date and purpose of the
 next meeting being agreed on at the end. Designated meeting times have been agreed on at 3 PM on
