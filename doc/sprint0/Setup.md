@@ -6,6 +6,7 @@ to a designated folder.
 **Frontend :** https://sandbox.inwit.app/
 
 **Backend/Database :** https://beta.inwit.app/cpanel
-{Login with the credentials}
+Username: csc301
+Password: $Ch33s3Cak3Blu3Berries!#
 
 See *Files > File Manager* and *Databases > phpMyAdmin* or *Databases > MySQL Databases*
