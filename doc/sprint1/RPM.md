@@ -27,7 +27,7 @@ As a restaurant, I’m able to access my vendor site, to receive orders, accept 
         - See history of Impact Points
 
 ### Restaurants must be able to:
-    - Define business As a restaurant, I’m able to access my vendor site, to receive orders, accept them and set a preparation time and scan containers to the order.
+    - Define business hours
     - Close restaurant for holidays
     - Modify banner, profile picture, venue name, store categories, address, etc
     - Review sales of the month and orders
