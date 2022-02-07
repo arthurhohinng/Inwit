@@ -12,3 +12,8 @@ Author URI: https://github.com/UTSCCSCC01/finalprojectw22-inwit
 License: GPLv2 or later
 Text Domain: csc301-inwit.php
 */
+
+if ( !function_exists( 'add_action' ) ) {
+	echo 'Hi there!  I\'m just a plugin, not much I can do when called directly.';
+	exit;
+}
