@@ -20,7 +20,7 @@ As a restaurant, I’m able to access my vendor site, to receive orders, accept 
         - Have an option at checkout to have containers picked up
         - Have an option to input tip amount
     - Show history of container transactions
-    - Receive an email reminder to user to bring back their containers 2 days before it expires 
+    - Receive an email reminder to bring back containers 2 days before it expires 
     - Be able to use Impact Points
         - Impact Points: for every dollar the user spends in the platform, the user receives 20 Impact Points
         - Receive Impact Points for returning container
