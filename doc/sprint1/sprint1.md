@@ -70,7 +70,7 @@ Tasks:
 | Brad Hebert | 2 |
 | Rayhan Fazal | 2 |
 | Kevin Shin | 2 |
-| Longyu Li | 3 |
+| Longyu Li | 2 |
 | Raghav Sharma | 2 |
 
 
