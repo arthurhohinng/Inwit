@@ -227,7 +227,7 @@ Tracking on Jira Total Mark: __ / 20
 
 Not too much documentation, but exception granted because of a member dropping
 
-  Your Mark: 12 / 12
+  Your Mark: 11.5 / 12
 
 ---
 
