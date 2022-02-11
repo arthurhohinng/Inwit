@@ -1,0 +1,2 @@
+Again, Inwit had already implemented this feature, thus we had to test it to make sure that it functions as expected. To add tips, please login through
+the setup shown in setup.md, and make a purchase with the fake product
