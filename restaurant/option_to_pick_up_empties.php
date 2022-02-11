@@ -1,56 +1,108 @@
-// Part 1 
-// Display Radio Buttons
-  
-add_action( 'woocommerce_review_order_before_payment', 'bbloomer_checkout_radio_choice' );
-  
-function bbloomer_checkout_radio_choice() {
-     
-   $chosen = WC()->session->get( 'radio_chosen' );
-   $chosen = empty( $chosen ) ? WC()->checkout->get_value( 'radio_choice' ) : $chosen;
-   $chosen = empty( $chosen ) ? '0' : $chosen;
-        
-   $args = array(
-   'type' => 'radio',
-   'class' => array( 'form-row-wide', 'update_totals_on_change' ),
-   'options' => array(
-      '0' => 'I will return the containers',
-      '5' => 'Pick up my empties ($5)',
-   ),
-   'default' => $chosen
-   );
-     
-   echo '<div id="checkout-radio">';
-   echo '<h3>Container Return</h3>';
-   woocommerce_form_field( 'radio_choice', $args, $chosen );
-   echo '</div>';
-     
+// Register waiting for response status
+function register_waiting_status() {
+    register_post_status( 'wc-waiting-for-response', array(
+        'label'                     => 'Waiting for Response',
+        'public'                    => true,
+        'exclude_from_search'       => false,
+        'show_in_admin_all_list'    => true,
+        'show_in_admin_status_list' => true,
+        'label_count'               => _n_noop( 'Waiting for Response (%s)', 'Waiting for Response (%s)' )
+    ) );
 }
-  
-// Part 2 
-// Add Fee and Calculate Total
-   
-add_action( 'woocommerce_cart_calculate_fees', 'bbloomer_checkout_radio_choice_fee', 20, 1 );
-  
-function bbloomer_checkout_radio_choice_fee( $cart ) {
-   
-   if ( is_admin() && ! defined( 'DOING_AJAX' ) ) return;
-    
-   $radio = WC()->session->get( 'radio_chosen' );
-     
-   if ( $radio ) {
-      $cart->add_fee( 'Pickup Fee', $radio );
-   }
-   
-}
-  
-// Part 3 
-// Add Radio Choice to Session
-  
-add_action( 'woocommerce_checkout_update_order_review', 'bbloomer_checkout_radio_choice_set_session' );
-  
-function bbloomer_checkout_radio_choice_set_session( $posted_data ) {
-    parse_str( $posted_data, $output );
-    if ( isset( $output['radio_choice'] ) ){
-        WC()->session->set( 'radio_chosen', $output['radio_choice'] );
+add_action( 'init', 'register_waiting_status' );
+
+// Add to list of WC Order statuses
+function add_waiting_statuses( $order_statuses ) {
+ 
+    $new_order_statuses = array();
+ 
+    // add new order status after processing
+    foreach ( $order_statuses as $key => $status ) {
+ 
+        $new_order_statuses[ $key ] = $status;
+ 
+        if ( 'wc-processing' === $key ) {
+            $new_order_statuses['wc-waiting-for-response'] = 'Waiting for Response';
+        }
     }
+ 
+    return $new_order_statuses;
 }
+add_filter( 'wc_order_statuses', 'add_waiting_statuses' );
+
+
+// Register Preparing status
+function register_preparing_status() {
+    register_post_status( 'wc-preparing', array(
+        'label'                     => 'Preparing',
+        'public'                    => true,
+        'exclude_from_search'       => false,
+        'show_in_admin_all_list'    => true,
+        'show_in_admin_status_list' => true,
+        'label_count'               => _n_noop( 'Preparing (%s)', 'Preparing (%s)' )
+    ) );
+}
+add_action( 'init', 'register_preparing_status' );
+
+// Add to list of WC Order statuses
+function add_preparing_statuses( $order_statuses ) {
+ 
+    $new_order_statuses = array();
+ 
+    // add new order status after processing
+    foreach ( $order_statuses as $key => $status ) {
+ 
+        $new_order_statuses[ $key ] = $status;
+ 
+        if ( 'wc-processing' === $key ) {
+            $new_order_statuses['wc-preparing'] = 'Preparing';
+        }
+    }
+ 
+    return $new_order_statuses;
+}
+add_filter( 'wc_order_statuses', 'add_preparing_statuses' );
+
+
+// Register Ready status
+function register_ready_status() {
+    register_post_status( 'wc-ready-for-pickup', array(
+        'label'                     => 'Ready for Pickup',
+        'public'                    => true,
+        'exclude_from_search'       => false,
+        'show_in_admin_all_list'    => true,
+        'show_in_admin_status_list' => true,
+        'label_count'               => _n_noop( 'Ready for Pickup', 'Ready for Pickup' )
+    ) );
+}
+add_action( 'init', 'register_ready_status' );
+
+// Add to list of WC Order statuses
+function add_ready_statuses( $order_statuses ) {
+ 
+    $new_order_statuses = array();
+ 
+    // add new order status after processing
+    foreach ( $order_statuses as $key => $status ) {
+ 
+        $new_order_statuses[ $key ] = $status;
+ 
+        if ( 'wc-processing' === $key ) {
+            $new_order_statuses['wc-ready-for-pickup'] = 'Ready for Pickup';
+        }
+    }
+ 
+    return $new_order_statuses;
+}
+add_filter( 'wc_order_statuses', 'add_ready_statuses' );
+
+
+// Make "Waiting for Response" the default status
+function change_default_order_status( $order_id ) {  
+                if ( ! $order_id ) {return;}            
+                $order = wc_get_order( $order_id );
+                if( 'processing'== $order->get_status() ) {
+                    $order->update_status( 'wc-waiting-for-response' );
+                }
+}
+add_action('woocommerce_thankyou','change_default_order_status');
