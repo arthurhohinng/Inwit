@@ -23,7 +23,7 @@ function display_user_container_table(){
 			echo "<body>";
 	
 			echo "<div class=\"table_container\"><table>";
-			echo "<tr><th style=\"padding-left:10px;\">Order #</th><th>Order Date</th><th>Status</th></tr>";
+			echo "<a href='../view-order/$row->order_id'><tr><th style=\"padding-left:10px;\">Order #</th><th></a>Order Date</th><th>Status</th></tr>";
 			foreach ($query_result as $row) {
 				echo "<tr><td>" . $row->order_id . "</td><td>" . $row->transaction_date . "</td><td>" . $row->container_status . "</tr>";
 			}
