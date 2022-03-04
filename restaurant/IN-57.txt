@@ -1,0 +1,2 @@
+The view of all container statuses is made with elementor and is on wordpress as required by the Inwit team. 
+Thus to view container statuses, please login with the details and steps mentioned in the README and then visit the restaurant container page.
