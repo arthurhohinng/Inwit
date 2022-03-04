@@ -23,6 +23,7 @@ User:
 27) As a user, I have to be able to keep the container by paying for it, so that I do not have to return it for my convenience 
 48) As a user, I want to be able to view a detailed order status page, so I know what stage my orders are at
 49) As a user, I should be able to tip my order by selecting a % of my order or a price, so that I can tip the restaurant easily
+65) As a user, I want to be able to view options for a pending container, so that I can have the option to buy/pickup a pending container
 
 Restaurant:
 
@@ -58,6 +59,7 @@ User:
 27. Through the containers page, I should have a seamless way to buy a container I currently have
 48. On the orders page, users should seem an easy to navigate page that shows each order status page
 49. On the checkout page, users should have an easy to input box that allows them to tip a certain % of their order
+65. On the users container page, they should have a button/easy way to quickly purchase one of their existing containers
 
 Restaurant: 
 
