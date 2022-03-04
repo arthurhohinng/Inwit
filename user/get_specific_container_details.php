@@ -21,6 +21,9 @@ function get_user_container_details(){
 				echo "<div> Container Status: " . strval($result->container_status) . "</div>";
 				echo "<div> Order #" . strval( $result->order_id ) . "</div>";
 				echo "<form>";
+					echo "<input type='radio' id='buy-container' name='radio' value='Yes'>";
+					echo "<label for='buy-container'>Buy container</label>";
+					echo "<br>";
 					echo "<input type='radio' id='pickup-container' name='radio' value='Yes'>";
 					echo "<label for='pickup-container'>Pickup container</label>";
 					echo "<br>";

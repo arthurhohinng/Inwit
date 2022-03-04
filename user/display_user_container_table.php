@@ -13,21 +13,25 @@ function display_user_container_table(){
 										LIMIT 10"
 									, $user->id);
 			$query_result = $wpdb->get_results( $query);
-	
-			echo "<style>";
-			echo "body {font-family: Arial;}";
-	
-			echo ".table_container { padding: 10px 12px 0px 12px;  border: 1px solid #ccc;  }";
-			echo ".table_container th { background-color:lightblue; color:black; font-weight:bold; border-left: 1px solid white;}";
-			echo "</style></head>";
-			echo "<body>";
-	
-			echo "<div class=\"table_container\"><table>";
-			echo "<a href='../view-order/$row->order_id'><tr><th style=\"padding-left:10px;\">Order #</th><th></a>Order Date</th><th>Status</th></tr>";
 			foreach ($query_result as $row) {
-				echo "<tr><td>" . $row->order_id . "</td><td>" . $row->transaction_date . "</td><td>" . $row->container_status . "</tr>";
+				echo "
+				<div class='order'>
+					<div class='left'>
+						<a href='../view-order/$row->order_id'>
+							<div class='ID'>Order #" . $row->order_id . "</div>
+						</a>
+						<div class='date'>" . $row->transaction_date . "</div>
+					</div>
+					<div class='right'>
+						<div class='status'>" . $row->container_status . "</div>";
+				// If container status is pending show link to get container details
+				// Assuming 1 == pending
+				if ( $row->container_status == 1 ){
+					echo "<a href='./?id=$row->container_id'> View Options </a>";
+				}
+					echo "</div>
+				</div>";
 			}
-			echo "</table></div>";
 			
 		}
 	}
