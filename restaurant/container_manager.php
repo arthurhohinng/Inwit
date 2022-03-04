@@ -57,30 +57,39 @@ function get_container_status($status){
 }
 
 // Function to return the total number of containers a logged-in user has. Note: A restuarant is considered a user. 
+/* Currently already implemented
 function get_user_container_count() {
 	
 	get_container_status('All');
 
 }
+*/
 
 // Function to return the total number of active containers a logged-in user has. Note: A restuarant is considered a user. 
 function get_user_active_container_count() {
 	
-	get_container_status('Active');
+	get_container_status(0);
+
+}
+
+// Function to return the total number of pending containers a logged-in user has. Note: A restuarant is considered a user. 
+function get_user_pending_container_count() {
+	
+	get_container_status(1);
 
 }
 
 // Function to return the total number of lost containers a logged-in user has. Note: A restuarant is considered a user. 
 function get_user_lost_container_count() {
 	
-	get_container_status('Lost');
+	get_container_status(2);
 
 }
 
 // Function to return the total number of broken containers a logged-in user has. Note: A restuarant is considered a user. 
 function get_user_broken_container_count() {
 	
-	get_container_status('Broken');
+	get_container_status(3);
 
 }
 
@@ -98,8 +107,9 @@ function set_container_status($status, $cont_id){
     }
 }
 
-add_shortcode ('print_loggedin_user_container_count', 'get_user_container_count');
+/* add_shortcode ('print_loggedin_user_container_count', 'get_user_container_count'); */
 add_shortcode ('print_loggedin_user_active_container_count', 'get_user_active_container_count');
+add_shortcode ('print_loggedin_user_pending_container_count', 'get_user_pending_container_count');
 add_shortcode ('print_loggedin_user_lost_container_count', 'get_user_lost_container_count');
 add_shortcode ('print_loggedin_user_broken_container_count', 'get_user_broken_container_count');
 

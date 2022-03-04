@@ -1,0 +1,2 @@
+The view of all restaurant container is made with elementor and is on wordpress as required by the Inwit team. 
+Thus to view the option for requesting more containers, please login with the details and steps mentioned in the README and then visit the restaurant container page.
