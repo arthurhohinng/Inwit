@@ -1,13 +1,20 @@
 <?php
+add_action( 'woocommerce_checkout_after_customer_details', 'custom_tip');
+
 function custom_tip() {
-	$args = array(
-	'type' => 'number');
+	$args1 = array(
+		'type' => 'number',
+		'placeholder' => 'Enter any amount in $...');
+	$args2 = array(
+	'type' => 'number',
+	'placeholder' => 'Enter any percentage...');
 	
 	echo '<div id="custom-tip">';
 	echo '<span>Enter a number in the first box to tip a percent of the total</span><br>';
-	echo '<span>Enter a number in the second box to tip any amount in dollars</span>';
-    echo '<h3>Enter Custom Tip </h3>';
-	woocommerce_form_field( 'amount', $args, WC()->checkout->get_value('amount'));
+	echo '<span>Enter a number in the second box to tip a percent of the total</span>';
+    	echo '<h3>Enter Custom Tip </h3>';
+	woocommerce_form_field( 'amount', $args1, WC()->checkout->get_value('amount'));
+	woocommerce_form_field( 'percent', $args2, WC()->checkout->get_value('percent'));
 	echo '</div>';
 }
 
