@@ -76,7 +76,6 @@ Tasks:
 | --- | --- |
 | Sabih Sarowar | 2 |
 | Arthur Ng | 2 |
-| Brad Hebert | 2 |
 | Rayhan Fazal | 2 |
 | Kevin Shin | 2 |
 | Longyu Li | 2 |
@@ -86,7 +85,6 @@ Tasks:
 ## Participants
 - Sabih Sarowar
 - Arthur Ng
-- Brad Hebert
 - Rayhan Fazal
 - Kevin Shin
 - Longyu Li
