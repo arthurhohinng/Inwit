@@ -1,4 +1,4 @@
-Note our product owner decides this backlog and updates our Jira backlog whenever has time and thinks there needs to be additions/removals
+Note our product owner decides this backlog and updates our Jira backlog whenever he has time and thinks there needs to be additions/removals
 
 
 User Stories (numbered based on Jira):
