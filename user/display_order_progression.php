@@ -34,52 +34,79 @@ function map_order_status( $order_status ) {
 /**
  * Checks whether the order has reached a certain stage of progress or not.
  */
-function check_progression( $stage, $order_id ) {
-    $order_value = map_order_status( $order_id )
+function reached_stage( $curr_status, $check_stage ) {
+    return map_order_status( $curr_status ) >= map_order_status( $check_stage );
+}
 
-    if $stage == "placed":
-        return ($order_value >= 1) ? True : False;
-    else if $stage == "confirmed":
-        return ($order_value >= 2) ? True : False;
-    else if $stage == "shipped":
-        return ($order_value >= 3) ? True: False;
-    else if $stage == "pickup":
-        return ($order_value >= 4) ? True: False;
-    else if $stage == "complete":
-        return ($order_value >= 5) ? True: False;
-    else:
-        return False;
+function get_progression_div( $curr_status, $check_stage ) {
+	if ( reached_stage($curr_status, $check_stage) ) {
+		return "<div class='circle filled'></div>";
+	} else {
+		return "<div class='circle empty'></div>";
+	}
 }
 
 /**
- * Displays a page containing the progression of an order.
- * (order placed -> confirmed -> on the way -> pickup -> delivered)
+ * Returns the order id within the URL.
  */
-function display_order_progression( $order_id ) {
-    global $wpdb;
-    
-    if ( is_user_logged_in() ){
-            
-        $user = wp_get_current_user();
-
-        $query = $wpdb->prepare("SELECT *
-                                    FROM 'wpar_dokan_orders'
-                                    WHERE 'order_id' = %d"
-                                , $order_id);
-        $order = $wpdb->get_results( $query );
-
-        $order_info = "<div>YOUR ORDER NUMBER: <span>#" . $order_id . "</span></div><div>ORDER TOTAL: <span>$" . $order->order_total . "</span></div>"
-
-        $order_placed = "<li><p>Order Placed</p><p>" . var_export(check_progression("placed", $order->order_status), true) ."</p></li>"
-        $confirmed = "<li><p>Confirmed</p><p>" . var_export(check_progression("confirmed", $order->order_status), true) ."</p></li>"
-        $on_the_way = "<li><p>Food On The Way</p><p>" . var_export(check_progression("shipped", $order->order_status), true) ."</p></li>"
-        $pickup = "<li><p>Awaiting Pickup</p><p>" . var_export(check_progression("pickup", $order->order_status), true) ."</p></li>"
-        $delivered = "<li><p>Food Delivered</p><p>" . var_export(check_progression("complete", $order->order_status), true) ."</p></li>"
-        
-        echo $order_info . "<div><ul>". $order_placed . $confirmed . $on_the_way . $pickup . $delivered . "</ul></div>" . "<button>Go back</button>"
-    }
+function get_order_id() {
+	global $wp;
+	
+	$path = explode( home_url( $wp->request ), "/" );
+	return $path[count($path)-1];
 }
 
+/**
+ * Displays the number and total cost of the order.
+ */
+function display_info( $order_id, $order_total ) {
+	echo "<div class='order-info'><p class='info-p bold'>YOUR ORDER NUMBER:  <span class='green'>#{$order_id}</span></p><p class='info-p bold'>ORDER TOTAL:  <span class='green'>\${$order_total}</span></p></div>";
+}
+
+/**
+ * Displays the progression of the order for the user.
+ */
+function display_progression( $status ) {
+	$display = "<ul>";
+	$display .= "<li><div class='li-left'>" . get_progression_div($status, "wc-completed") . "</div><div class='li-right'><p class='bold li-text'>Food Delivered</p><p class='li-text'>Delivered on 21/01/2022</p></div></li>";
+	$display .= "<li><div class='li-left'>" . get_progression_div($status, "wc-pickup") . "</div><div class='li-right'><p class='bold li-text'>Awaiting Pickup</p><p class='li-text'>We are waiting for you to pickup</p></div></li>";
+	$display .= "<li><div class='li-left'>" . get_progression_div($status, "wc-shipped") . "</div><div class='li-right'><p class='bold li-text'>Food On The Way</p><p class='li-text'>Food is now being delivered</p></div></li>";
+	$display .= "<li><div class='li-left'>" . get_progression_div($status, "wc-confirmed") . "</div><div class='li-right'><p class='bold li-text'>Confirmed</p><p class='li-text'>Your order has been confirmed</p></div></li>";
+	$display .= "<li><div class='li-left'>" . get_progression_div($status, "wc-processing") . "</div><div class='li-right'><p class='bold li-text'>Order Placed</p><p class='li-text'>We have received your order</p></div></li>";
+	$display .= "</ul>";
+	echo $display;
+}
+
+function display_order_progression_page() {
+	global $wpdb;
+    
+    if ( is_user_logged_in() && isset( $_GET["id"] ) ) {
+		$user = wp_get_current_user();
+		$order_id = $_GET["id"];
+
+		$query = $wpdb->prepare("SELECT *
+									FROM `wpar_dokan_orders`
+									WHERE `order_id` = %d"
+								, $order_id);
+		$result = $wpdb->get_row( $query );
+		$id = is_null($order_id) ? "-" : $order_id;
+		$total = is_null($result->order_total) ? "-" : number_format($result->order_total, 2);
+		$status = is_null($result->order_status) ? "" : $result->order_status;
+
+		echo "<div class='order-progression-body'>";
+		display_info( $id, $total );
+		display_progression( $status );
+		echo "</div>";
+	}
+}
+
+/**
+ * Add a button to the View Order page that leads to the Track Order page
+ */
+function add_view_progression_button($order) {
+	echo "<form action='https://beta.inwit.app/my-account/track-order/' method='GET'><input type='hidden' name='id' value='2'><input type='submit' value='Track Order'/></form>";
+}
+add_action("woocommerce_order_details_after_customer_details", "add_view_progression_button");
 
 
-add_shortcode ( 'display_order_progression', 'display_order_progression' );
+add_shortcode( 'display_order_progression', 'display_order_progression_page' );
