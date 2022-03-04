@@ -20,15 +20,12 @@ function get_user_container_details(){
 				echo "<div> Container ID: " . $container_id . "</div>";
 				echo "<div> Container Status: " . strval($result->container_status) . "</div>";
 				echo "<div> Order #" . strval( $result->order_id ) . "</div>";
-				echo "<form>";
-					echo "<input type='radio' id='buy-container' name='radio' value='Yes'>";
-					echo "<label for='buy-container'>Buy container</label>";
-					echo "<br>";
-					echo "<input type='radio' id='pickup-container' name='radio' value='Yes'>";
-					echo "<label for='pickup-container'>Pickup container</label>";
-					echo "<br>";
-					echo "<input type='submit' value='Confirm'>";
-				echo "</form>";
+				echo "<a href='../product/container/?id=$container_id&option=buy'>
+						<button>Buy Container</button>
+					  </a>";
+				echo "<a href='../product/container/?id=$container_id&option=pickup'>
+						<button>Pickup Container</button>
+					  </a>";
 			}
 			
 		}
