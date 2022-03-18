@@ -52,8 +52,9 @@ class container_post_list_table extends WP_List_Table
 	
 	function column_container_id($item) {
 		$actions = array(
-			'edit' => sprintf('<a href="post-new.php?post_type=container">Edit</a>'),
-			'delete' => sprintf('<a href="post-new.php?post_type=container">Delete</a>')
+			'add' => sprintf('<a href="post.php?post=1735&action=edit">Add New</a>'),
+			'edit' => sprintf('<a href="post.php?post=1733&action=edit">Edit</a>'),
+			'delete' => sprintf('<a href="post.php?post=1737&action=edit">Delete</a>')
         );
 		return sprintf('%1$s %2$s', $item['container_id'], $this->row_actions($actions) );
 	}
