@@ -1,0 +1,2 @@
+The view that the button is on (container status page) is made with elementor and is on WordPress as required by the Inwit team. 
+Thus to view the button, please login with the details and steps mentioned in the README and then visit the restaurant container status page.
