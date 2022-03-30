@@ -5,8 +5,8 @@ if(!class_exists('WP_List_Table')) {
 }
 
 class container_post_list_table extends WP_List_Table
-{
-	function column_cb($item) {
+{	
+	function column_cb( $item ) {
 		return sprintf('<input type="checkbox" name="container[]" value="%s" />', $item['container_id']);    
 	}
 	
@@ -47,10 +47,21 @@ class container_post_list_table extends WP_List_Table
 		
 		$query = $wpdb->prepare("SELECT * FROM `Container`");
 		$result = $wpdb->get_results( $query, "ARRAY_A" );
+		
+		// get user information
+		$query_users = $wpdb->prepare("SELECT * FROM `wpar_users`");
+		$result_users = $wpdb->get_results( $query_users, "OBJECT_K" );
+
+		// map numbers from table to more informative labels
+		foreach ( $result as $key => $row ) {
+			$result[$key]["restaurant_id"] = $result_users[$row["recipient_id"]]->display_name . " ({$row["restaurant_id"]})";
+			$result[$key]["recipient_id"] = $result_users[$row["recipient_id"]]->user_nicename . " ({$result_users[$row["recipient_id"]]->ID})";
+		}
+		
 		$this->items = $result;
 	}
 	
-	function column_container_id($item) {
+	function column_container_id( $item ) {
 		$actions = array(
 			'add' => sprintf('<a href="post.php?post=1735&action=edit">Add New</a>'),
 			'edit' => sprintf('<a href="post.php?post=1733&action=edit">Edit</a>'),
@@ -64,15 +75,14 @@ class container_post_list_table extends WP_List_Table
 			'delete' => 'delete'
 		);
 		return $actions;
-	}	
+	}
 }
 
 
-// override default container post type table with container table in database
 add_filter( 'views_edit-container',  "set_container_post_list_table");
 function set_container_post_list_table() {
     global $wp_list_table;
     $list_table = new container_post_list_table();
 	$list_table->prepare_items();
-    $wp_list_table = $list_table ;
+    $wp_list_table = $list_table;
 }
