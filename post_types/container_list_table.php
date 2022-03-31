@@ -23,6 +23,14 @@ class container_post_list_table extends WP_List_Table
 		return $columns;
 	}
 	
+	function get_sortable_columns() {
+		$sortable_columns = array(
+			'restaurant_id'  => array('restaurant_id', false),
+			'transaction_date' => array('transaction_date', false)
+		);
+		return $sortable_columns;
+	}
+	
 	function column_default( $item, $column_name ) {
 		switch( $column_name ) { 
 			case 'container_id':
@@ -36,13 +44,25 @@ class container_post_list_table extends WP_List_Table
 				return print_r( $item, true );
 		}
 	}
+	
+	function usort_reorder( $a, $b ) {
+		// default by container ID
+		$orderby = ( ! empty( $_GET['orderby'] ) ) ? $_GET['orderby'] : 'container_id';
+		
+		// default sort by ascending
+		$order = ( ! empty($_GET['order'] ) ) ? $_GET['order'] : 'asc';
+		
+		// determine final sort order (user specified)
+		$result = strcmp( $a[$orderby], $b[$orderby] );
+		return ( $order === 'asc' ) ? $result : -$result;
+	}
 
 	function prepare_items() {
 		global $wpdb;
 		
 		$columns = $this->get_columns();
 		$hidden = array();
-		$sortable = array();
+		$sortable = $this->get_sortable_columns();
 		$this->_column_headers = array($columns, $hidden, $sortable);
 		
 		$query = $wpdb->prepare("SELECT * FROM `Container`");
@@ -58,6 +78,7 @@ class container_post_list_table extends WP_List_Table
 			$result[$key]["recipient_id"] = $result_users[$row["recipient_id"]]->user_nicename . " ({$result_users[$row["recipient_id"]]->ID})";
 		}
 		
+		usort( $result, array( &$this, 'usort_reorder' ) );
 		$this->items = $result;
 	}
 	
@@ -77,7 +98,6 @@ class container_post_list_table extends WP_List_Table
 		return $actions;
 	}
 }
-
 
 add_filter( 'views_edit-container',  "set_container_post_list_table");
 function set_container_post_list_table() {
