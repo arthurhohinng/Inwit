@@ -33,6 +33,7 @@ User:
 82. On the container page of a user, there should be a buy container option that lets the user purchase their container
 88. On the container page, beside the container numbers, there should be a descriptive word corresponding to their statuses in the database
 97. On the order page, their should be a dropdown menu of "pay", "cancel", and "view"
+
 Restaurant: 
 
 18. In the restaurant view, there should be a container id associated to each order 
