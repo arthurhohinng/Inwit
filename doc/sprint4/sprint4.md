@@ -1,4 +1,4 @@
-# Sprint 3 Planning
+# Sprint 4 Planning
 
 ## Sprint goal:
  - Finish user stories: __IN-82__, __IN-85__, __IN-87__, __IN-88__, __IN-92__, __IN-97__ for some bug fixes and ensure main features work.
