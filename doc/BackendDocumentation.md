@@ -53,12 +53,12 @@ This function is called when the container is scanned to an order. It updates th
 
 ## accept_container.php: 
 
-This function is called when the container is scanned after clicking the accept containers button in the restaurant status view. It updates the container status, and the transaction date and sets the recepient_id to null and order_id to null. 
+This function is called when the container is scanned after clicking the accept containers button in the restaurant status view. It authenticates the user and updates the container status, and the transaction date and sets the recepient_id to null and order_id to null. It also sends an email to the restaurant owner. 
 
 
 ## container_list_table.php: 
 
-This creates a table in the WordPress admin view for the Container table. The table is located in the page for managing Container post types.
+This creates a table in the WordPress admin view for the Container table. The table is located in the page for managing Container post types. Also replaces numeric values for restaurant ID and recipient ID with the restaurant’s name and the recipient username, respectively (retrieved from the database). Enables sorting by restaurant ID and date.
 
 
 ## manage_container.php: 
@@ -83,4 +83,19 @@ This modifies the original order details page for the dokan plugin. The template
 
 ## show_containers_for_each_order.php: 
 
-This allows the restaurant to view all the containers associated with each order. The idea is that for each pending container, a container that still needs to be returned by a customer, we get its id from the database along with its corresponding order number. That’s what the query does. Then, we can just display all the information from the query as needed.
+This allows the restaurant to view all the containers associated with each order. This uses a dokan-panel class (part of the Dokan plugin) to create a box. We then retrieve all containers associated with the order and restaurant user, and then display those containers with their statuses, in a table inside that box. Previously, this information was not available to the restaurant page, and has also been updated for the restaurant to view.
+
+
+## add_order_session.php: 
+
+This function stores the current order page’s order_id in a session. This is later used to associate a container id to it, when our Inwit tablet scans a container’s NFC tag to use it. 
+
+
+## update_purchased_containers.php
+
+This function update the Inwit container database to update the container status to reflect that a customer has purchased it.
+
+
+## cfwc_add_custom_data_order.php
+
+This allows products to add a custom container_id fields, which allows for differentiation between containers in different product pages. 
