@@ -1,6 +1,6 @@
 Note our product owner decides this backlog and updates our JIRA backlog whenever he has time and thinks there needs to be additions/removals
 
-The new updated Product Backlog (associated JIRA numbers found in markdown source code): 
+The new updated Product Backlog: 
 
 User Stories:
 
