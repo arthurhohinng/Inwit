@@ -1,6 +1,7 @@
 <?php
 function display_user_container_table(){
 	global $wpdb;
+	$container_statuses = array("Active", "Pending", "Lost", "Broken", "Purchased");
 		if (isset($_GET['pg'])) {
 			$page = $_GET['pg'];
 			}
@@ -34,7 +35,7 @@ function display_user_container_table(){
 						<div class='date'>Days Left to Return: ". max(0, 7 - floor((strtotime(date('Y-m-d H:i:s')) - strtotime($row->transaction_date)) / 86400)) . "</div>
 					</div>
 					<div class='right'>
-						<div class='status' style='text-align: right'>" . $row->container_status . "</div>";
+						<div class='status' style='text-align: right'>" . $container_statuses[$row->container_status] . "</div>";
 				// If container status is pending show link to get container details
 				// Assuming 1 == pending
 				if ( $row->container_status == 1 ){

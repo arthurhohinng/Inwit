@@ -3,19 +3,30 @@
 function inwit_checkin_sys() {
 	
 	global $wpdb;
-	
-	if ( is_user_logged_in() ) { //check if user is logged in
+	$user = wp_get_current_user(); //capture the current user(restaurant) information 
+	$container_id = get_the_ID(); //get the current post id. (i.e. id of the container)
+	$prepared = $wpdb->prepare("SELECT `restaurant_id` 
+								FROM `Container` 
+								WHERE `container_id` = %d",
+							    $containerid);
+	$query_result = $wpdb->get_results($prepared);
+
+	if ( is_user_logged_in() && $query_result[0]->restaurant_id == $user->id) { //check if user is logged in
 		date_default_timezone_set('Canada/Toronto');
 		$date = date('m/d/Y h:i:s a', time());
-		$user = wp_get_current_user(); //capture the current user(restaurant) information 
+		
 		// $current_date_time = current_time('mysql');
-		$container_id = get_the_ID(); //get the current post id. (i.e. id of the container)
+		
 		$query = $wpdb->prepare("UPDATE `Container` 
 								 SET `restaurant_id` = %d, `recipient_id` = null, `order_id` = null, 
 								 `container_status` = 0, `transaction_date` = %s
 								 WHERE `container_id` = %d" 
 								, array($user->id, $date, $container_id ));
 		$result = $wpdb->get_results($query);
+
+		// email the restaurant
+		$email = $user->user_email
+		wp_mail($user->user_email, "Container Scanned", "A container with id: $container_id has been scanned at $date.");
 
         // if ( !(is_user_container_possessor($user->id, $post_id)) ) { //Vendor does not possess container in database, ready for scanning back into the restaurant's inventory
 
